@@ -1,0 +1,6 @@
+name: AdsInAdChat
+version: ${project.version}
+main: me.hsgamer.adsinadchat.AdsInAdChat
+api-version: 1.16
+authors: [ HSGamer ]
+description: Change ad text to ad links
