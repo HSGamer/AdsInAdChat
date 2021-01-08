@@ -20,6 +20,10 @@ public class ChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
+        if (player.hasPermission("aiac.bypass")) {
+            return;
+        }
+
         for (Preprocessor preprocessor : getInstance().getPreprocessorList()) {
             message = preprocessor.process(player, message);
         }
