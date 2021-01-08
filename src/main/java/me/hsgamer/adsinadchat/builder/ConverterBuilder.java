@@ -4,6 +4,7 @@ import me.hsgamer.adsinadchat.api.BaseBuilder;
 import me.hsgamer.adsinadchat.api.Converter;
 import me.hsgamer.adsinadchat.processor.converter.DeathHole;
 import me.hsgamer.adsinadchat.processor.converter.Hastebin;
+import me.hsgamer.adsinadchat.processor.converter.TextChanger;
 
 public class ConverterBuilder extends BaseBuilder<Converter> {
     /**
@@ -14,5 +15,6 @@ public class ConverterBuilder extends BaseBuilder<Converter> {
     private ConverterBuilder() {
         register(Hastebin::new, "hastebin", "hbin");
         register(DeathHole::new, "deathhole", "death");
+        register(TextChanger::new, "textchanger", "text", "changer");
     }
 }
