@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.logging.Level;
 
 public class AdFocus extends Converter {
@@ -19,7 +18,7 @@ public class AdFocus extends Converter {
     @Override
     public String convert(Player player, String text) {
         try {
-            URL url = new URL("http://adfoc.us/api/?key=" + value + "&url=" + URLEncoder.encode(text, "UTF-8"));
+            URL url = new URL("http://adfoc.us/api/?key=" + value + "&url=" + text);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", "Adfocus Java Api");
@@ -32,6 +31,7 @@ public class AdFocus extends Converter {
             String response = reader.readLine();
 
             if (response.equals("0")) {
+                Bukkit.getLogger().warning("Failed to convert with Adfocus, Invalid response");
                 response = text;
             }
 

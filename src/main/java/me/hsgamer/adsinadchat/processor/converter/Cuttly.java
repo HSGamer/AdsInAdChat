@@ -33,9 +33,12 @@ public class Cuttly extends Converter {
 
             JsonObject jsonObject = new JsonParser().parse(new InputStreamReader((conn.getInputStream()))).getAsJsonObject();
             JsonObject urlResponse = jsonObject.getAsJsonObject("url");
-            String shortLink = "";
+            String shortLink;
             if (urlResponse.get("status").getAsString().equals("7")) {
                 shortLink = urlResponse.get("shortLink").getAsString();
+            } else {
+                Bukkit.getLogger().warning("Failed to convert with Adfocus, Invalid response");
+                shortLink = text;
             }
 
             conn.disconnect();
