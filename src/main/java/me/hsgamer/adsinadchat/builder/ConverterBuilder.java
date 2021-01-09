@@ -16,5 +16,6 @@ public class ConverterBuilder extends BaseBuilder<Converter> {
         register(TextChanger::new, "textchanger", "text", "changer");
         register(Cuttly::new, "cuttly", "cutt.ly");
         register(AdFocus::new, "adfocus", "adfoc.us");
+        register(PatternReplacer::new, "patternreplacer", "replacer", "pattern-replacer");
     }
 }

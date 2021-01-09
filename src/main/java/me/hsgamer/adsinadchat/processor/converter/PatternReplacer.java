@@ -1,11 +1,11 @@
-package me.hsgamer.adsinadchat.processor.preprocessor;
+package me.hsgamer.adsinadchat.processor.converter;
 
-import me.hsgamer.adsinadchat.api.Preprocessor;
+import me.hsgamer.adsinadchat.api.Converter;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Pattern;
 
-public class PatternReplacer extends Preprocessor {
+public class PatternReplacer extends Converter {
     private static final Pattern splitPattern = Pattern.compile(Pattern.quote("-->"));
     private Pattern matchPattern;
     private String replace;
@@ -15,7 +15,7 @@ public class PatternReplacer extends Preprocessor {
     }
 
     @Override
-    public String process(Player player, String text) {
+    public String convert(Player player, String text) {
         if (matchPattern == null) {
             return text;
         }
