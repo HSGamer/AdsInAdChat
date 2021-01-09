@@ -10,6 +10,6 @@ public class TextChanger extends Converter {
 
     @Override
     public String convert(Player player, String text) {
-        return value.replace("{text}", text);
+        return value.replace("{text}", text).replace("{player}", player.getName());
     }
 }
