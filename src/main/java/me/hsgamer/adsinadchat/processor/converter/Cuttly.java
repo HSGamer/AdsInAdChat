@@ -23,6 +23,7 @@ public class Cuttly extends Converter {
             URL url = new URL("https://cutt.ly/api/api.php?key=" + value + "&short=" + URLEncoder.encode(text, "UTF-8"));
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "Cuttly Java Api");
             conn.setRequestProperty("Accept", "application/json");
 
             if (conn.getResponseCode() != 200) {
