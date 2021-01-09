@@ -34,7 +34,7 @@ public class ChatListener implements Listener {
 
         String finalMessage = message;
         List<Trigger> triggerList = getInstance().getTriggerList();
-        if (triggerList.isEmpty() || triggerList.stream().noneMatch(trigger -> trigger.trigger(player, finalMessage))) {
+        if (triggerList.isEmpty() || triggerList.parallelStream().noneMatch(trigger -> trigger.trigger(player, finalMessage))) {
             return;
         }
 
