@@ -39,7 +39,7 @@ public class ChatListener implements Listener {
         }
 
         for (Converter converter : getInstance().getConverterList()) {
-            message = converter.convert(player, message);
+            message = converter.process(player, message);
         }
         if (message == null) {
             event.setCancelled(true);

@@ -45,4 +45,9 @@ public class Cuttly extends Converter {
             return text;
         }
     }
+
+    @Override
+    protected boolean isURLRequired() {
+        return true;
+    }
 }
