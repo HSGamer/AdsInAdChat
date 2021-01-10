@@ -4,6 +4,9 @@ import me.hsgamer.adsinadchat.api.BaseBuilder;
 import me.hsgamer.adsinadchat.api.Converter;
 import me.hsgamer.adsinadchat.processor.converter.*;
 
+/**
+ * The converter builder
+ */
 public class ConverterBuilder extends BaseBuilder<Converter> {
     /**
      * The instance of the builder

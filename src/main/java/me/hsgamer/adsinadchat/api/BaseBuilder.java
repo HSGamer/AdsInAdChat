@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Builder for Processor
+ *
+ * @param <T> The processor type
+ */
 public abstract class BaseBuilder<T extends Processor> extends Builder<String, T> {
 
     /**

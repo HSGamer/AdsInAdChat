@@ -13,6 +13,9 @@ import java.util.List;
 
 import static me.hsgamer.adsinadchat.AdsInAdChat.getInstance;
 
+/**
+ * The chat listener
+ */
 public class ChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
