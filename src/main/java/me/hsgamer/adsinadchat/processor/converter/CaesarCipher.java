@@ -13,6 +13,9 @@ public class CaesarCipher extends Converter {
     private static String encrypt(String text, int shift) {
         char[] chars = text.toCharArray();
         for (int i = 0; i < chars.length; i++) {
+            if (!Character.isLetter(chars[i])) {
+                continue;
+            }
             if (Character.isUpperCase(chars[i])) {
                 chars[i] = (char) (((int) chars[i] + shift - 65) % 26 + 65);
             } else {
