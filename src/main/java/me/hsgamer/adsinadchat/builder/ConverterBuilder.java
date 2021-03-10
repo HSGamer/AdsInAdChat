@@ -20,5 +20,6 @@ public class ConverterBuilder extends BaseBuilder<Converter> {
         register(Cuttly::new, "cuttly", "cutt.ly");
         register(AdFocus::new, "adfocus", "adfoc.us");
         register(PatternReplacer::new, "patternreplacer", "replacer", "pattern-replacer");
+        register(CaesarCipher::new, "caesarcipher", "caesar", "cipher");
     }
 }
