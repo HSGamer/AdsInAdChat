@@ -12,20 +12,10 @@ import me.hsgamer.hscore.bukkit.baseplugin.BasePlugin;
 import java.util.*;
 
 public final class AdsInAdChat extends BasePlugin {
-    private static AdsInAdChat instance;
-
     private final List<Preprocessor> preprocessorList = new LinkedList<>();
     private final List<Converter> converterList = new LinkedList<>();
     private final List<Trigger> triggerList = new ArrayList<>();
-
-    public static AdsInAdChat getInstance() {
-        return instance;
-    }
-
-    @Override
-    public void preLoad() {
-        instance = this;
-    }
+    private boolean silentMode = false;
 
     @Override
     public void load() {
@@ -37,12 +27,13 @@ public final class AdsInAdChat extends BasePlugin {
                 "regex: [-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)"
         ));
         getConfig().addDefault("converter-list", Collections.singletonList("Hastebin"));
+        getConfig().addDefault("silent-mode", false);
         saveConfig();
     }
 
     @Override
     public void enable() {
-        registerListener(new ChatListener());
+        registerListener(new ChatListener(this));
     }
 
     @Override
@@ -50,6 +41,7 @@ public final class AdsInAdChat extends BasePlugin {
         preprocessorList.addAll(PreprocessorBuilder.INSTANCE.buildList(getConfig().get("preprocessor-list")));
         triggerList.addAll(TriggerBuilder.INSTANCE.buildList(getConfig().get("trigger-list")));
         converterList.addAll(ConverterBuilder.INSTANCE.buildList(getConfig().get("converter-list")));
+        silentMode = getConfig().getBoolean("silent-mode");
     }
 
     @Override
@@ -72,5 +64,9 @@ public final class AdsInAdChat extends BasePlugin {
 
     public List<Trigger> getTriggerList() {
         return triggerList;
+    }
+
+    public boolean isSilentMode() {
+        return silentMode;
     }
 }
