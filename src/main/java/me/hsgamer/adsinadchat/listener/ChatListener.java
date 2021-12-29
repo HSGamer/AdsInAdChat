@@ -63,9 +63,13 @@ public class ChatListener implements Listener {
         if (instance.isSilentMode()) {
             final String format = event.getFormat();
             final String displayName = player.getDisplayName();
-            final List<Player> recipients = new ArrayList<>(event.getRecipients());
+            final List<Player> recipients = new ArrayList<>();
             final AtomicReference<String> messageRef = new AtomicReference<>(message);
-            event.getRecipients().removeIf(recipient -> recipient != player);
+            event.getRecipients().forEach(recipient -> {
+                if (recipient != player) {
+                    recipients.add(recipient);
+                }
+            });
             Bukkit.getScheduler().runTaskAsynchronously(instance, () -> {
                 for (Converter converter : instance.getConverterList()) {
                     if (messageRef.get() == null) {
