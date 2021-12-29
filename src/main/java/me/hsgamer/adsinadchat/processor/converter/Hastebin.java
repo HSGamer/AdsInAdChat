@@ -1,6 +1,8 @@
 package me.hsgamer.adsinadchat.processor.converter;
 
 import me.hsgamer.adsinadchat.api.Converter;
+import me.hsgamer.hscore.web.UserAgent;
+import me.hsgamer.hscore.web.WebUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -8,7 +10,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
@@ -23,12 +24,10 @@ public class Hastebin extends Converter {
             byte[] postData = text.getBytes(StandardCharsets.UTF_8);
             int postDataLength = postData.length;
 
-            URL url = new URL("https://hastebin.com/documents");
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            HttpsURLConnection conn = (HttpsURLConnection) WebUtils.openConnection("https://hastebin.com/documents", UserAgent.CHROME);
             conn.setDoOutput(true);
             conn.setInstanceFollowRedirects(false);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("User-Agent", "Hastebin Java Api");
             conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
             conn.setUseCaches(false);
 

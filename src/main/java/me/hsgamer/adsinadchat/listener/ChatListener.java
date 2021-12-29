@@ -28,6 +28,9 @@ public class ChatListener implements Listener {
         }
 
         for (Preprocessor preprocessor : getInstance().getPreprocessorList()) {
+            if (message == null) {
+                break;
+            }
             message = preprocessor.process(player, message);
         }
         if (message == null) {
@@ -42,6 +45,9 @@ public class ChatListener implements Listener {
         }
 
         for (Converter converter : getInstance().getConverterList()) {
+            if (message == null) {
+                break;
+            }
             message = converter.process(player, message);
         }
         if (message == null) {

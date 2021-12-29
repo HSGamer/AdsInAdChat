@@ -17,9 +17,9 @@ public class CaesarCipher extends Converter {
                 continue;
             }
             if (Character.isUpperCase(chars[i])) {
-                chars[i] = (char) (((int) chars[i] + shift - 65) % 26 + 65);
+                chars[i] = (char) ((chars[i] + shift - 65) % 26 + 65);
             } else {
-                chars[i] = (char) (((int) chars[i] + shift - 97) % 26 + 97);
+                chars[i] = (char) ((chars[i] + shift - 97) % 26 + 97);
             }
         }
         return new String(chars);
