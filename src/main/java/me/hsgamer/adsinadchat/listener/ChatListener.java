@@ -12,7 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -34,29 +36,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        for (Preprocessor preprocessor : instance.getPreprocessorList()) {
-            if (message == null) {
-                break;
-            }
-            message = preprocessor.process(player, message);
-        }
-        if (message == null) {
-            event.setCancelled(true);
-            return;
-        }
-
-        List<Trigger> triggerList = instance.getTriggerList();
-        if (triggerList.isEmpty()) {
-            return;
-        }
-        boolean triggered = false;
-        for (Trigger trigger : triggerList) {
-            if (trigger.trigger(player, message)) {
-                triggered = true;
-                break;
-            }
-        }
-        if (!triggered) {
+        if (!isTriggered(player, message)) {
             return;
         }
 
@@ -104,5 +84,33 @@ public class ChatListener implements Listener {
             }
             event.setMessage(message);
         }
+    }
+
+    private boolean isTriggered(Player player, String message) {
+        List<Trigger> triggerList = instance.getTriggerList();
+        if (triggerList.isEmpty()) {
+            return false;
+        }
+
+        Set<String> preprocessedMessage = new HashSet<>();
+        if (instance.isDeepTrigger()) {
+            preprocessedMessage.add(message);
+        }
+        for (Preprocessor preprocessor : instance.getPreprocessorList()) {
+            if (message == null) {
+                break;
+            }
+            message = preprocessor.process(player, message);
+            if (message != null && instance.isDeepTrigger()) {
+                preprocessedMessage.add(message);
+            }
+        }
+
+        for (String preprocessed : preprocessedMessage) {
+            if (triggerList.parallelStream().anyMatch(trigger -> trigger.trigger(player, preprocessed))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

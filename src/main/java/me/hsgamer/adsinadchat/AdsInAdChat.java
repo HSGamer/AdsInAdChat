@@ -16,6 +16,7 @@ public final class AdsInAdChat extends BasePlugin {
     private final List<Converter> converterList = new LinkedList<>();
     private final List<Trigger> triggerList = new ArrayList<>();
     private boolean silentMode = false;
+    private boolean deepTrigger = false;
 
     @Override
     public void load() {
@@ -28,6 +29,7 @@ public final class AdsInAdChat extends BasePlugin {
         ));
         getConfig().addDefault("converter-list", Collections.singletonList("Hastebin"));
         getConfig().addDefault("silent-mode", false);
+        getConfig().addDefault("deep-trigger", false);
         saveConfig();
     }
 
@@ -42,6 +44,7 @@ public final class AdsInAdChat extends BasePlugin {
         triggerList.addAll(TriggerBuilder.INSTANCE.buildList(getConfig().get("trigger-list")));
         converterList.addAll(ConverterBuilder.INSTANCE.buildList(getConfig().get("converter-list")));
         silentMode = getConfig().getBoolean("silent-mode");
+        deepTrigger = getConfig().getBoolean("deep-trigger");
     }
 
     @Override
@@ -68,5 +71,9 @@ public final class AdsInAdChat extends BasePlugin {
 
     public boolean isSilentMode() {
         return silentMode;
+    }
+
+    public boolean isDeepTrigger() {
+        return deepTrigger;
     }
 }
