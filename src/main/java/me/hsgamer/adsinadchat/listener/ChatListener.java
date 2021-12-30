@@ -30,12 +30,11 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        String message = event.getMessage();
-
         if (player.hasPermission("aiac.bypass")) {
             return;
         }
 
+        String message = event.getMessage();
         if (!isTriggered(player, message)) {
             return;
         }
