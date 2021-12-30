@@ -72,6 +72,9 @@ public class ChatListener implements Listener {
                 }
                 return false;
             });
+            if (recipients.isEmpty()) {
+                return;
+            }
             Bukkit.getScheduler().runTaskAsynchronously(instance, () -> {
                 for (Converter converter : instance.getConverterList()) {
                     if (messageRef.get() == null) {
