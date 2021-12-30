@@ -113,6 +113,9 @@ public class ChatListener implements Listener {
                 preprocessedMessage.add(message);
             }
         }
+        if (message != null) {
+            preprocessedMessage.add(message);
+        }
 
         for (String preprocessed : preprocessedMessage) {
             if (triggerList.parallelStream().anyMatch(trigger -> trigger.trigger(player, preprocessed))) {
