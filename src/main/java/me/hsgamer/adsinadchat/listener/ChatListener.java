@@ -41,49 +41,57 @@ public class ChatListener implements Listener {
         }
 
         if (instance.isSilentMode()) {
-            final String format = event.getFormat();
-            final String displayName = player.getDisplayName();
-            final AtomicReference<String> messageRef = new AtomicReference<>(message);
-            final List<Player> recipients = new ArrayList<>();
-            event.getRecipients().removeIf(recipient -> {
-                if (recipient != player) {
-                    recipients.add(recipient);
-                    return true;
-                }
-                return false;
-            });
-            if (recipients.isEmpty()) {
-                return;
-            }
-            Bukkit.getScheduler().runTaskAsynchronously(instance, () -> {
-                for (Converter converter : instance.getConverterList()) {
-                    if (messageRef.get() == null) {
-                        break;
-                    }
-                    messageRef.set(converter.convert(player, messageRef.get()));
-                }
-                String finalMessage = messageRef.get();
-                if (finalMessage == null) {
-                    return;
-                }
-                String formatMessage = String.format(format, displayName, finalMessage);
-                for (Player recipient : recipients) {
-                    recipient.sendMessage(formatMessage);
-                }
-            });
+            silentConvert(event, player, message);
         } else {
+            normalConvert(event, player, message);
+        }
+    }
+
+    private void normalConvert(AsyncPlayerChatEvent event, Player player, String message) {
+        for (Converter converter : instance.getConverterList()) {
+            if (message == null) {
+                break;
+            }
+            message = converter.process(player, message);
+        }
+        if (message == null) {
+            event.setCancelled(true);
+            return;
+        }
+        event.setMessage(message);
+    }
+
+    private void silentConvert(AsyncPlayerChatEvent event, Player player, String message) {
+        final String format = event.getFormat();
+        final String displayName = player.getDisplayName();
+        final AtomicReference<String> messageRef = new AtomicReference<>(message);
+        final List<Player> recipients = new ArrayList<>();
+        event.getRecipients().removeIf(recipient -> {
+            if (recipient != player) {
+                recipients.add(recipient);
+                return true;
+            }
+            return false;
+        });
+        if (recipients.isEmpty()) {
+            return;
+        }
+        Bukkit.getScheduler().runTaskAsynchronously(instance, () -> {
             for (Converter converter : instance.getConverterList()) {
-                if (message == null) {
+                if (messageRef.get() == null) {
                     break;
                 }
-                message = converter.process(player, message);
+                messageRef.set(converter.convert(player, messageRef.get()));
             }
-            if (message == null) {
-                event.setCancelled(true);
+            String finalMessage = messageRef.get();
+            if (finalMessage == null) {
                 return;
             }
-            event.setMessage(message);
-        }
+            String formatMessage = String.format(format, displayName, finalMessage);
+            for (Player recipient : recipients) {
+                recipient.sendMessage(formatMessage);
+            }
+        });
     }
 
     private boolean isTriggered(Player player, String message) {
