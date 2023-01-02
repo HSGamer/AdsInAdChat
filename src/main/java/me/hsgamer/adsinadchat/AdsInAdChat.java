@@ -7,11 +7,11 @@ import me.hsgamer.adsinadchat.builder.ConverterBuilder;
 import me.hsgamer.adsinadchat.builder.PreprocessorBuilder;
 import me.hsgamer.adsinadchat.builder.TriggerBuilder;
 import me.hsgamer.adsinadchat.listener.ChatListener;
-import me.hsgamer.hscore.bukkit.baseplugin.BasePlugin;
+import me.hsgamer.hscore.bukkit.simpleplugin.SimplePlugin;
 
 import java.util.*;
 
-public final class AdsInAdChat extends BasePlugin {
+public final class AdsInAdChat extends SimplePlugin {
     private final List<Preprocessor> preprocessorList = new LinkedList<>();
     private final List<Converter> converterList = new LinkedList<>();
     private final List<Trigger> triggerList = new ArrayList<>();
