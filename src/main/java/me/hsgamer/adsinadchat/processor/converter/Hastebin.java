@@ -1,5 +1,7 @@
 package me.hsgamer.adsinadchat.processor.converter;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.hsgamer.adsinadchat.api.Converter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,6 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class Hastebin extends Converter {
+    private static final String URL = "https://paste.helpch.at/";
+    private static final String API_URL = URL + "documents";
+    private static final String DOCUMENT_URL = URL + "%s";
+
     public Hastebin(String value) {
         super(value);
     }
@@ -23,7 +29,7 @@ public class Hastebin extends Converter {
             byte[] postData = text.getBytes(StandardCharsets.UTF_8);
             int postDataLength = postData.length;
 
-            URL url = new URL("https://hastebin.com/documents");
+            URL url = new URL(API_URL);
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setInstanceFollowRedirects(false);
@@ -41,14 +47,8 @@ public class Hastebin extends Converter {
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             response = reader.readLine();
 
-            if (response.contains("\"key\"")) {
-                response = response.substring(response.indexOf(":") + 2, response.length() - 2);
-
-                String postURL = "https://hastebin.com/raw/";
-                response = postURL + response;
-            }
-
-            return response;
+            JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+            return String.format(DOCUMENT_URL, jsonObject.get("key").getAsString());
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.WARNING, "Error when converting with Hastebin", e);
             return text;
